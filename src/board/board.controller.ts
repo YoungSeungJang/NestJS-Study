@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { BoardService } from './board.service';
 
 interface Board {
@@ -27,5 +27,10 @@ export class BoardController {
   @Post()
   create(@Body() data: any) {
     return this.boardService.create(data);
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() data: any): Board {
+    return this.boardService.update(Number(id), data);
   }
 }
