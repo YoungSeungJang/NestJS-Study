@@ -4,10 +4,14 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { BoardService } from './board.service';
+import { CreatePostDto } from './dto/create-post.dto';
 
 interface Board {
   id: number;
@@ -33,17 +37,19 @@ export class BoardController {
   }
 
   @Post()
-  create(@Body() data: any) {
+  @UsePipes(new ValidationPipe()) // 해당 핸들러에 파이프 적용
+  create(@Body() data: CreatePostDto) {
+    // 이곳에 도달했다면 유효성 검사를 통과한 상태임이 보장됨
     return this.boardService.create(data);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() data: any): Board {
-    return this.boardService.update(Number(id), data);
+  update(@Param('id', ParseIntPipe) id: number, @Body() data: any): Board {
+    return this.boardService.update(id, data);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string): Board[] {
-    return this.boardService.delete(Number(id));
+  delete(@Param('id',ParseIntPipe) id: number): Board[] {
+    return this.boardService.delete(id);
   }
 }

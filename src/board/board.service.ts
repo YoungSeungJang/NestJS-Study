@@ -1,9 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreatePostDto } from './dto/create-post.dto';
 
 interface Board {
   id: number;
   title: string;
   content: string;
+  author: string;
+  major: string;
 }
 
 @Injectable()
@@ -13,16 +16,22 @@ export class BoardService {
       id: 1,
       title: '첫 번째 게시글 - 제목',
       content: '첫 번째 게시글 - 본문',
+      author: '작성자1',
+      major: '전공1',
     },
     {
       id: 2,
       title: '두 번째 게시글 - 제목',
       content: '두 번째 게시글 - 본문',
+      author: '작성자2',
+      major: '전공2',
     },
     {
       id: 3,
       title: '세 번째 게시글 - 제목',
       content: '세 번째 게시글 - 본문',
+      author: '작성자3',
+      major: '전공3',
     },
   ];
   findAll(): Board[] {
@@ -40,7 +49,7 @@ export class BoardService {
     return board;
   }
 
-  create(payload: any) {
+  create(payload: CreatePostDto) {
     const newBoard = { id: this.generateId(), ...payload };
     this.boards.push(newBoard);
     return newBoard;
