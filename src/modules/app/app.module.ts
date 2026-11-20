@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { BoardModule } from './board/board.module';
-import { ClassroomModule } from './classroom/classroom.module';
+import { BoardModule } from '../../board/board.module';
+import { ClassroomModule } from '../../classroom/classroom.module';
+
 
 @Module({
   imports: [BoardModule, ClassroomModule],

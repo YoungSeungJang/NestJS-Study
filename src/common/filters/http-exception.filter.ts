@@ -14,7 +14,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         // string일 수도 있고, object일 수도 있을 가능성이 있어 분기 처리
         const errorResponse = exception.getResponse()
         console.log(errorResponse)
-        const message = typeof errorResponse === 'object' ? errorResponse['message']:errorResponse;
+        // const message = typeof errorResponse === 'object' ? errorResponse['message']:errorResponse;
 
         // 5. 우리가 원하는 형태로 응답 JSON을 조립
         response.status(status).json({
