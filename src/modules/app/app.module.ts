@@ -1,12 +1,8 @@
-import { Inject, Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { BoardModule } from '../../board/board.module';
-import { ClassroomModule } from '../../classroom/classroom.module';
+import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { config } from 'process';
-
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -14,28 +10,28 @@ import { config } from 'process';
     // 1. ConfigModule 설정 : .env 파일로드
     ConfigModule.forRoot({
       isGlobal: true, // 전역으로 COnfigService 사용가능
-      envFilePath:`.env/${process.env.NODE_ENV||'development'}.env`,
+      envFilePath: `.env/${process.env.NODE_ENV || 'development'}.env`,
     }),
 
     // 2. TypeOrmModule 비동기 설정 : ConfigService의 환경 변수 주입
     TypeOrmModule.forRootAsync({
-      inject:[ConfigService], // ConfigService 인스턴스를 주입받음
+      inject: [ConfigService], // ConfigService 인스턴스를 주입받음
 
       // 실제 데이터베이스와 연결을 하기 위한 설정을 수행하는 팩토리 함수
-      useFactory: (configService:ConfigService)=>({
-        type:configService.get<string>('DB_TYPE') as 'postgres',
-        host:configService.get<string>('DB_HOST'),
-        port:configService.get<number>('DB_PORT'),
-        username:configService.get<string>('DB_USERNAME'),
-        password:configService.get<string>('DB_PASSWORD'),
-        database:configService.get<string>('DB_DATABASE'),
+      useFactory: (configService: ConfigService) => ({
+        type: configService.get<string>('DB_TYPE') as 'postgres',
+        host: configService.get<string>('DB_HOST'),
+        port: configService.get<number>('DB_PORT'),
+        username: configService.get<string>('DB_USERNAME'),
+        password: configService.get<string>('DB_PASSWORD'),
+        database: configService.get<string>('DB_DATABASE'),
       }),
       // // 엔티티 로드 설정
       // autoLoadEntities:true,
 
       // // 데이터베이스 스키마 동기화 (개발 시 편리, 운영시 절대금지)
       // synchronize:configService.get("NODE_ENV")==='development'?true:false,
-    })
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
