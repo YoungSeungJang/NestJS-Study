@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TasksModule } from '../tasks/task.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -32,6 +33,7 @@ import { AppService } from './app.service';
       // // 데이터베이스 스키마 동기화 (개발 시 편리, 운영시 절대금지)
       // synchronize:configService.get("NODE_ENV")==='development'?true:false,
     }),
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
